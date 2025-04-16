@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('tecnico_id')->nullable()->constrained('tecnicos');
             $table->text('descripcion');
             $table->string('estado')->default('abierto');
+            $table->string('prioridad')->default('baja');
             $table->string('file_path')->nullable();
             $table->date('fecha_creacion')->nullable();
             $table->date('fecha_cierre')->nullable();
