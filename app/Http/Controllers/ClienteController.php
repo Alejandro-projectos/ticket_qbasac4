@@ -15,22 +15,43 @@ class ClienteController extends Controller
 
     public function create()
     {
-        // Lógica para mostrar el formulario de creación de cliente
+        
+        return view('clientes.create');
     }
 
     public function store(Request $request)
     {
-        // Lógica para almacenar un nuevo cliente
+        
+        $rules = [
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:clientes,email',
+            'direccion' => 'string|max:255',
+            'telefono' => 'string|max:15',
+        ];
+        $messages = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El formato del correo electrónico no es válido.',
+            'email.unique' => 'El correo electrónico ya está en uso.',
+            'direccion.string' => 'La dirección debe ser una cadena de texto.',
+            'telefono.string' => 'El teléfono debe ser una cadena de texto.',
+        ];
+        $request->validate($rules, $messages);
+
+        Cliente::create($request->all());
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente creado exitosamente.');
     }
+
 
     public function show($id)
     {
-        // Lógica para mostrar un cliente específico
+        
     }
 
     public function edit($id)
     {
-        // Lógica para mostrar el formulario de edición de cliente
+        dd($id);
     }
 
     public function update(Request $request, $id)

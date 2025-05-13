@@ -33,6 +33,5 @@ class DatabaseSeeder extends Seeder
         Action::factory(10)->create([
             'ticket_id' => Ticket::factory(),
         ]);
-        // \App\Models\Cliente::factory(10)->create();
     }
 }
