@@ -43,24 +43,43 @@ class ClienteController extends Controller
         return redirect()->route('clientes.index')->with('success', 'Cliente creado exitosamente.');
     }
 
-
-    public function show($id)
-    {
-        
-    }
-
     public function edit($id)
     {
-        dd($id);
+        $cliente = Cliente::findOrFail($id);
+        return view('clientes.edit', compact('cliente'));
     }
 
     public function update(Request $request, $id)
     {
-        // Lógica para actualizar un cliente existente
+        $rules = [
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:clientes,email,' . $id,
+            'direccion' => 'string|max:255',
+            'telefono' => 'string|max:15',
+        ];
+        $messages = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El formato del correo electrónico no es válido.',
+            'email.unique' => 'El correo electrónico ya está en uso.',
+            'direccion.string' => 'La dirección debe ser una cadena de texto.',
+            'telefono.string' => 'El teléfono debe ser una cadena de texto.',
+        ];
+        $request->validate($rules, $messages);
+
+        $cliente = Cliente::findOrFail($id);
+        $cliente->update($request->all());
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente actualizado exitosamente.');
     }
 
     public function destroy($id)
     {
-        // Lógica para eliminar un cliente
+        {
+            $cliente = Cliente::findOrFail($id);
+            $cliente->delete();
+        
+            return redirect()->route('clientes.index')->with('success', 'Cliente eliminado exitosamente.');
+        }
     }
 }

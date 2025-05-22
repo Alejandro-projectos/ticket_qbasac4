@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\TecnicoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +17,9 @@ Route::view('dashboard', 'dashboard')
 Route::resource('clientes', ClienteController::class)
     ->middleware(['auth'])
     ->names('clientes');
-
+Route::resource('tecnicos', TecnicoController::class)
+    ->middleware(['auth'])
+    ->names('tecnicos');
 
 
 Route::middleware(['auth'])->group(function () {
